@@ -102,13 +102,13 @@ const Header = () => {
                 </div>
               )}
 
-              <div className="hidden w-full max-w-sm items-center md:flex">
+              {/* <div className="hidden w-full max-w-sm items-center md:flex">
                 <Input
                   type="search"
                   placeholder="Search products..."
                   className="w-full md:w-[300px]"
                 />
-              </div>
+              </div> */}
             </div>
 
             <Button variant="ghost" size="icon" aria-label="View Cart">
