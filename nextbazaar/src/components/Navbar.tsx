@@ -73,60 +73,39 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* <div className="w-full max-w-sm items-center md:flex">
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="w-full md:w-[300px]"
-            />
-          </div> */}
-
           <div className="flex items-center space-x-2">
-            {/* <div className="w-full max-w-sm items-center md:flex">
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="w-full md:w-[300px]"
-            />
-          </div> */}
             <div className="relative flex items-center">
-              {/* Search Icon for Small Screens */}
               <button
-                className="md:hidden p-2 text-gray-500"
+                className="md:hidden text-gray-500"
                 onClick={() => setShowSearch(true)}
               >
                 <Search className="w-6 h-6" />
               </button>
 
-              {/* Search Popup */}
               {showSearch && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-                  <div className="bg-white w-11/12 max-w-sm p-4 rounded-lg shadow-lg relative">
-                    {/* Close Button */}
-                    <button
-                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                      onClick={() => setShowSearch(false)}
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-
-                    {/* Search Input */}
+                <div className="fixed mt-32 inset-0 flex items-center justify-center bg-black/50 z-50">
+                  <div className="bg-white w-8/12 max-w-sm p-4 rounded-lg shadow-lg relative">
                     <Input
                       type="search"
                       placeholder="Search products..."
                       className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
                       autoFocus
                     />
+                    <Button
+                      className="absolute mt-12 ml-36 text-gray-900 hover:text-gray-700 rounded-full bg-white"
+                      onClick={() => setShowSearch(false)}
+                    >
+                      <X className="w-6 h-6" />
+                    </Button>
                   </div>
                 </div>
               )}
 
-              {/* Always Visible Search Input for Large Screens */}
-              <div className="hidden md:block">
+              <div className="hidden w-full max-w-sm items-center md:flex">
                 <Input
                   type="search"
                   placeholder="Search products..."
-                  className="w-full md:w-[300px] p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+                  className="w-full md:w-[300px]"
                 />
               </div>
             </div>
