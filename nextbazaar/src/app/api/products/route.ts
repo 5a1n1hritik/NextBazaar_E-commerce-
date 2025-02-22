@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       image,
       category,
       rating,
+      offerPrice,
       numReviews,
       countInStock,
     } = body;
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
       !price ||
       !description ||
       !image ||
-      countInStock === undefined
+      countInStock || category === undefined
     ) {
       return NextResponse.json(
         { success: false, message: "All required fields must be provided" },
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
       description,
       image,
       category,
+      offerPrice,
       rating: rating || 0,
       numReviews: numReviews || 0,
       countInStock,
@@ -63,7 +65,6 @@ export async function POST(req: Request) {
     );
   }
 }
-
 
 export async function GET() {
   try {
