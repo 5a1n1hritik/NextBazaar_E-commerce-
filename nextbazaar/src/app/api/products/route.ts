@@ -63,3 +63,24 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+export async function GET() {
+  try {
+    await connectDB();
+
+    const products = await Product.find({});
+
+    return NextResponse.json({ success: true, products }, { status: 200 });
+
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to fetch products",
+        error,
+      },
+      { status: 500 }
+    );
+  }
+}
