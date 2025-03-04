@@ -8,7 +8,7 @@ import ProductCard from "./ProductCard";
 interface Product {
   _id: string;
   name: string;
-  image: string;
+  image: string[];
   description: string;
   price: number;
   offerPrice?: number;
@@ -48,18 +48,6 @@ const ProductList = () => {
 
   return (
     <>
-      {/* <div>
-      <h2 className="text-2xl items-center">Products</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <div key={product._id} className="border p-4">
-            <h3 className="text-xl font-semibold">{product.name}</h3>
-            <p className="text-gray-500">${product.price}</p>
-          </div>
-        ))}
-      </div>
-    </div> */}
-
       <div className="flex flex-col items-center pt-14">
         <p className="text-2xl font-medium text-left w-full">
           Popular Products

@@ -7,8 +7,9 @@ export async function POST(req: Request) {
     await connectDB();
 
     const body = await req.json();
+    console.log("Received body:", body);
 
-    const {
+    let {
       name,
       price,
       description,
@@ -20,13 +21,19 @@ export async function POST(req: Request) {
       countInStock,
     } = body;
 
+    if (!Array.isArray(image)) {
+      image = typeof image === "string" ? [image] : [];
+    }
+    if (!Array.isArray(category)) {
+      category = typeof category === "string" ? [category] : [];
+    }
+
     if (
       !name ||
       !price ||
       !description ||
-      !image ||
-      countInStock || category === undefined
-    ) {
+      image.length === 0 ||
+      !countInStock || category.length === 0 ) {
       return NextResponse.json(
         { success: false, message: "All required fields must be provided" },
         { status: 400 }
@@ -37,6 +44,8 @@ export async function POST(req: Request) {
       name,
       price,
       description,
+      // image: Array.isArray(image) ? image : [image], 
+      // category: Array.isArray(category) ? category : [category], 
       image,
       category,
       offerPrice,
@@ -55,15 +64,15 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
+    console.error("Product Creation Error:", error);  // Log full error
+    return NextResponse.json({
         success: false,
         message: "Failed to create product",
-        error,
-      },
-      { status: 500 }
-    );
-  }
+        error: error.message,
+        stack: error.stack // Include stack trace
+    }, { status: 500 });
+}
+
 }
 
 export async function GET() {

@@ -16,12 +16,14 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image:{  // Image URL
-        type: String,
+    image:{
+        type: [String],
         required: true
     },
     category:{
-        type: String,
+        type: [String],
+        enum: ['electronics', 'beauty', 'books', 'clothing', 'shoes', 'sports', 'outdoor', 'home', 'kitchen', 'grocery', 'health', 'toys', 'automotive', 'industrial', 'handmade', 'audio', 'other'],
+        required: true
     },
     rating:{
         type: Number,
@@ -37,7 +39,7 @@ const ProductSchema = new mongoose.Schema({
         default: 0
     }
 }, {
-    timestamps: true    // Add created_at and updated_at fields automatically
+    timestamps: true    
 });
 
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
