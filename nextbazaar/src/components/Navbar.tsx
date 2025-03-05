@@ -1,9 +1,24 @@
 "use client";
 
-import * as React from "react"
+import * as React from "react";
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, ShoppingCart, User, Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  Menu,
+  ShoppingCart,
+  User,
+  Search,
+  X,
+  ShoppingBag,
+  XCircle,
+  Star,
+  LogOut,
+  Heart,
+  Sun,
+  Moon,
+  Monitor,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
@@ -19,13 +34,14 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme } = useTheme();
   const [showSearch, setShowSearch] = useState(false);
+  const router = useRouter();
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "Products", href: "/products" },
+    { name: "Shop", href: "/shop" },
     { name: "Categories", href: "/categories" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "Cart", href: "/cart" },
+    { name: "Sign Up", href: "/signup" },
   ];
 
   return (
@@ -111,7 +127,21 @@ const Header = () => {
               </div> */}
             </div>
 
-            <Button variant="ghost" size="icon" aria-label="View Cart">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="View Cart"
+              onClick={() => router.push("/wishlist")}
+            >
+              <Heart className="h-5 w-5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="View Cart"
+              onClick={() => router.push("/orders")}
+            >
               <ShoppingCart className="h-5 w-5" />
             </Button>
 
@@ -122,13 +152,36 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <User className="h-5 w-5" />
+                  Manage My Account
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <ShoppingBag className="h-5 w-5" />
+                  My Order
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <XCircle className="h-5 w-5" />
+                  My Cancellations
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Star className="h-5 w-5" />
+                  My Reviews
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <LogOut className="h-5 w-5" />
+                  Logout
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("light")}>
+                  <Sun className="h-5 w-5" />
                   Light
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  <Moon className="h-5 w-5" />
                   Dark
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
+                  <Monitor className="h-5 w-5" />
                   System
                 </DropdownMenuItem>
               </DropdownMenuContent>
