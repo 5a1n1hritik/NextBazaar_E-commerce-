@@ -20,7 +20,7 @@ interface Product {
   price: number;
   description: string;
   image: string[];
-  category: string[];
+  category: string;
   offerPrice?: number;
   rating?: number;
   numReviews?: number;
@@ -125,7 +125,7 @@ export default function ProductsPage() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{product?.name || "No Name"}</TableCell>
                   <TableCell>
-                    {product?.category?.join(", ") || "No Category"}
+                    {product?.category || "No Category"}
                   </TableCell>
                   <TableCell>${product?.price?.toFixed(2) || "0.00"}</TableCell>
                   <TableCell>{product?.countInStock || 0}</TableCell>
