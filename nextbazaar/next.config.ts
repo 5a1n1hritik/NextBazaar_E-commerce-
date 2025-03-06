@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "asset.gecdesigns.com",
+        hostname: "graphicsfamily.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
       },
     ],
   },

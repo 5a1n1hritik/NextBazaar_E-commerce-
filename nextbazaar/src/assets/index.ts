@@ -18,6 +18,9 @@ import cannon_camera_image from "../../public/assets/star_dull_icon.svg";
 import macbook_image from "../../public/assets/star_dull_icon.svg";
 import sony_airbuds_image from "../../public/assets/star_dull_icon.svg";
 import star_dull_icon from "../../public/assets/star_dull_icon.svg";
+import jbl_soundbox_images from "../../public/assets/jbl_soundbox_image.png";
+import md_controller_image from "../../public/assets/md_controller_image.png";
+import sm_controller_image from "../../public/assets/md_controller_image.png";
 
 const assets = {
   images: {
@@ -36,6 +39,9 @@ const assets = {
     cannon_camera_image,
     macbook_image,
     sony_airbuds_image,
+    jbl_soundbox_images,
+    md_controller_image,
+    sm_controller_image,
   },
   icons: {
     arrow_icon,
