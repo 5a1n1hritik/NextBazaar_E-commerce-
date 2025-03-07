@@ -34,111 +34,111 @@ interface Product {
   discount?: number;
 }
 
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Premium Leather Jacket",
-    description:
-      "Handcrafted genuine leather jacket with premium stitching and comfortable fit.",
-    price: 299.99,
-    category: "Clothing",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.8,
-    stock: 15,
-    featured: true,
-  },
-  {
-    id: "2",
-    name: "Wireless Noise-Cancelling Headphones",
-    description:
-      "Experience crystal clear audio with our premium noise-cancelling technology.",
-    price: 199.99,
-    category: "Electronics",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.7,
-    stock: 42,
-    featured: true,
-  },
-  {
-    id: "3",
-    name: "Ergonomic Office Chair",
-    description:
-      "Designed for comfort during long work hours with adjustable lumbar support.",
-    price: 249.99,
-    category: "Furniture",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.5,
-    stock: 8,
-  },
-  {
-    id: "4",
-    name: "Organic Cotton T-Shirt",
-    description:
-      "Eco-friendly and soft cotton t-shirt, perfect for everyday wear.",
-    price: 29.99,
-    category: "Clothing",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.3,
-    stock: 120,
-    discount: 15,
-  },
-  {
-    id: "5",
-    name: "Smart Fitness Watch",
-    description:
-      "Track your health metrics and stay connected with this waterproof smart watch.",
-    price: 149.99,
-    category: "Electronics",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.6,
-    stock: 35,
-    featured: true,
-  },
-  {
-    id: "6",
-    name: "Stainless Steel Water Bottle",
-    description:
-      "Keep your drinks hot or cold for hours with this vacuum-insulated bottle.",
-    price: 24.99,
-    category: "Accessories",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.4,
-    stock: 67,
-    discount: 10,
-  },
-  {
-    id: "7",
-    name: "Handmade Ceramic Mug Set",
-    description:
-      "Set of 4 artisan mugs, each uniquely crafted with premium glazed ceramic.",
-    price: 39.99,
-    category: "Home",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.2,
-    stock: 23,
-  },
-  {
-    id: "8",
-    name: "Vintage Denim Jeans",
-    description:
-      "Classic fit jeans with premium denim that gets better with age.",
-    price: 79.99,
-    category: "Clothing",
-    image: "/placeholder.svg?height=400&width=300",
-    rating: 4.5,
-    stock: 45,
-    discount: 20,
-  },
-];
+// const products: Product[] = [
+//   {
+//     id: "1",
+//     name: "Premium Leather Jacket",
+//     description:
+//       "Handcrafted genuine leather jacket with premium stitching and comfortable fit.",
+//     price: 299.99,
+//     category: "Clothing",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.8,
+//     stock: 15,
+//     featured: true,
+//   },
+//   {
+//     id: "2",
+//     name: "Wireless Noise-Cancelling Headphones",
+//     description:
+//       "Experience crystal clear audio with our premium noise-cancelling technology.",
+//     price: 199.99,
+//     category: "Electronics",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.7,
+//     stock: 42,
+//     featured: true,
+//   },
+//   {
+//     id: "3",
+//     name: "Ergonomic Office Chair",
+//     description:
+//       "Designed for comfort during long work hours with adjustable lumbar support.",
+//     price: 249.99,
+//     category: "Furniture",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.5,
+//     stock: 8,
+//   },
+//   {
+//     id: "4",
+//     name: "Organic Cotton T-Shirt",
+//     description:
+//       "Eco-friendly and soft cotton t-shirt, perfect for everyday wear.",
+//     price: 29.99,
+//     category: "Clothing",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.3,
+//     stock: 120,
+//     discount: 15,
+//   },
+//   {
+//     id: "5",
+//     name: "Smart Fitness Watch",
+//     description:
+//       "Track your health metrics and stay connected with this waterproof smart watch.",
+//     price: 149.99,
+//     category: "Electronics",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.6,
+//     stock: 35,
+//     featured: true,
+//   },
+//   {
+//     id: "6",
+//     name: "Stainless Steel Water Bottle",
+//     description:
+//       "Keep your drinks hot or cold for hours with this vacuum-insulated bottle.",
+//     price: 24.99,
+//     category: "Accessories",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.4,
+//     stock: 67,
+//     discount: 10,
+//   },
+//   {
+//     id: "7",
+//     name: "Handmade Ceramic Mug Set",
+//     description:
+//       "Set of 4 artisan mugs, each uniquely crafted with premium glazed ceramic.",
+//     price: 39.99,
+//     category: "Home",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.2,
+//     stock: 23,
+//   },
+//   {
+//     id: "8",
+//     name: "Vintage Denim Jeans",
+//     description:
+//       "Classic fit jeans with premium denim that gets better with age.",
+//     price: 79.99,
+//     category: "Clothing",
+//     image: "/placeholder.svg?height=400&width=300",
+//     rating: 4.5,
+//     stock: 45,
+//     discount: 20,
+//   },
+// ];
 
 const HomeSection = () => {
-  const featuredProducts = products.filter((product) => product.featured);
+  // const featuredProducts = products.filter((product) => product.featured);
 
   return (
     <>
-      <HomeHeaderSlider />
 
       <div className="flex flex-col gap-10 py-8">
+      <HomeHeaderSlider />
         {/* Hero Section */}
         {/* <section className="container px-4 md:px-6">
         <div className="relative overflow-hidden rounded-lg">
@@ -162,7 +162,7 @@ const HomeSection = () => {
           </div>
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/80 via-background/60 to-background/30" />
           <Image
-            src="/placeholder.svg?height=600&width=1200"
+            src="https://img.freepik.com/free-vector/flat-abstract-sale-banner_23-2149447128.jpg"
             alt="Hero background"
             fill
             className="object-cover -z-20"

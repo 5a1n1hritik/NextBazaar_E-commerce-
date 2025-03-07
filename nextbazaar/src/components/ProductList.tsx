@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import ProductCard from "./ProductCard";
+// import ProductCard from "./ProductCard";
+import ProductCard from "./Product-Card";
 
 interface Product {
   _id: string;
@@ -12,6 +13,7 @@ interface Product {
   description: string;
   price: number;
   offerPrice?: number;
+  stock: number;
   category: string;
   rating: number;
 }

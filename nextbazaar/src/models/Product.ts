@@ -1,47 +1,77 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const ProductSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true
+export interface IProduct extends Document {
+  name: string;
+  description: string;
+  price: number;
+  discount?: number;
+  finalPrice: number;
+  category: mongoose.Types.ObjectId;
+  images: string[];
+  stock: number;
+  rating: number;
+  featured: boolean;
+  reviews: mongoose.Types.ObjectId[];
+}
+
+const ProductSchema = new Schema<IProduct>(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    price:{
-        type: Number,
-        required: true
+    description: {
+      type: String,
+      required: true,
     },
-    offerPrice:{
-        type: Number,
+    price: {
+      type: Number,
+      required: true,
     },
-    description:{
-        type: String,
-        required: true
+    discount: {
+      type: Number,
+      default: 0,
     },
-    image:{
-        type: [String],
-        required: true
+    finalPrice: {
+      type: Number,
+      required: true,
     },
-    category:{
-        type: String,
-        enum: ['electronics', 'beauty', 'books', 'clothing', 'shoes', 'sports', 'outdoor', 'home', 'kitchen', 'grocery', 'health', 'toys', 'automotive', 'industrial', 'handmade', 'audio', 'other'],
-        required: true
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
-    rating:{
-        type: Number,
-        default: 0
+    images: [{ type: String }],
+    stock: {
+      type: Number,
+      required: true,
     },
-    numReviews:{
-        type: Number,
-        default: 0
+    rating: {
+      type: Number,
+      default: 0,
     },
-    countInStock:{
-        type: Number,
-        required: true,
-        default: 0
-    }
-}, {
-    timestamps: true    
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+ProductSchema.pre("save", function (next) {
+  if (this.discount && this.discount > 0) {
+    this.finalPrice = this.price - (this.price * this.discount) / 100;
+  } else {
+    this.finalPrice = this.price;
+  }
+  next();
 });
 
-const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
-
-export default Product;
+export default mongoose.models.Product ||
+  mongoose.model<IProduct>("Product", ProductSchema);

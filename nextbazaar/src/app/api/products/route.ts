@@ -1,78 +1,65 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/utils/db";
 import Product from "@/models/Product";
+import Category from "@/models/Category";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const body = await req.json();
-    console.log("Received body:", body);
-
-    let {
+    const {
       name,
-      price,
       description,
-      image,
+      price,
+      discount,
       category,
-      rating,
-      offerPrice,
-      numReviews,
-      countInStock,
-    } = body;
+      images,
+      stock,
+      featured,
+    } = await req.json();
 
-    if (!Array.isArray(image)) {
-      image = typeof image === "string" ? [image] : [];
-    }
-    if (!Array.isArray(category)) {
-      category = typeof category === "string" ? [category] : [];
-    }
-
-    if (
-      !name ||
-      !price ||
-      !description ||
-      image.length === 0 ||
-      !countInStock || category.length === 0 ) {
+    if (!name || !description || !price || !category || !stock) {
       return NextResponse.json(
-        { success: false, message: "All required fields must be provided" },
+        { success: false, error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    const newproduct = new Product({
-      name,
-      price,
-      description,
-      // image: Array.isArray(image) ? image : [image], 
-      // category: Array.isArray(category) ? category : [category], 
-      image,
-      category,
-      offerPrice,
-      rating: rating || 0,
-      numReviews: numReviews || 0,
-      countInStock,
+    const categoryDoc = await Category.findOne({
+      name: { $regex: new RegExp(`^${category}$`, "i") },
     });
-    await newproduct.save();
+
+    if (!categoryDoc) {
+      return NextResponse.json(
+        { success: false, error: "Category not found" },
+        { status: 400 }
+      );
+    }
+
+    const finalPrice = discount ? price - (price * discount) / 100 : price;
+
+    const newProduct = await Product.create({
+      name,
+      description,
+      price,
+      discount,
+      finalPrice,
+      category: categoryDoc._id,
+      images,
+      stock,
+      featured,
+    });
 
     return NextResponse.json(
-      {
-        success: true,
-        message: "Product created successfully",
-        newproduct,
-      },
+      { success: true, product: newProduct },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Product Creation Error:", error);  // Log full error
-    return NextResponse.json({
-        success: false,
-        message: "Failed to create product",
-        error: error.message,
-        stack: error.stack // Include stack trace
-    }, { status: 500 });
-}
-
+    return NextResponse.json(
+      { success: false, error: "Error creating product" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function GET() {
@@ -82,7 +69,6 @@ export async function GET() {
     const products = await Product.find({});
 
     return NextResponse.json({ success: true, products }, { status: 200 });
-
   } catch (error) {
     return NextResponse.json(
       {
