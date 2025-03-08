@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
 import Link from "next/link";
-// import ProductCard from "./ProductCard";
 import ProductCard from "./Product-Card";
+import { ArrowRight } from "lucide-react";
 
 interface Product {
   _id: string;
   name: string;
-  image: string[];
   description: string;
   price: number;
-  offerPrice?: number;
-  stock: number;
-  category: string;
+  discount?: number;
+  finalPrice?: number;
+  category: { _id: string; name: string };
+  image: string[];
   rating: number;
+  featured: boolean;
 }
 
 const ProductList = () => {
@@ -50,21 +50,32 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center pt-14">
-        <p className="text-2xl font-medium text-left w-full">
-          Popular Products
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 flex-col items-center gap-6 mt-6 pb-14 w-full">
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+      <section className="container px-4 md:px-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold tracking-tight">
+            Popular Products
+            </h2>
+            <Link
+              href="/shop"
+              className="flex items-center gap-1 text-sm font-medium text-primary"
+            >
+              View all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.slice(0, 6).map((product) => (
+              <Link
+                key={product._id}
+                href={`/shop/${product._id}`}
+              >
+                <ProductCard key={product._id} product={product} />
+              </Link>
+            ))}
+          </div>
         </div>
-        <Link href={"/"}>
-          <Button className="mt-4" variant="outline" size="lg">
-            see more
-          </Button>
-        </Link>
-      </div>
+      </section>
     </>
   );
 };

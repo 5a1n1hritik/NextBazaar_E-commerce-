@@ -3,14 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-
-// import { products, categories } from "@/components/data/products"
-// import { ProductCard } from "@/components/ui/product-card"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import HomeHeaderSlider from "./HomeHeaderSlider";
 import ProductList from "./ProductList";
-import ProductcArd from "./Product-Card";
 import assets from "@/assets";
 
 const categories = [
@@ -34,102 +30,6 @@ interface Product {
   discount?: number;
 }
 
-// const products: Product[] = [
-//   {
-//     id: "1",
-//     name: "Premium Leather Jacket",
-//     description:
-//       "Handcrafted genuine leather jacket with premium stitching and comfortable fit.",
-//     price: 299.99,
-//     category: "Clothing",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.8,
-//     stock: 15,
-//     featured: true,
-//   },
-//   {
-//     id: "2",
-//     name: "Wireless Noise-Cancelling Headphones",
-//     description:
-//       "Experience crystal clear audio with our premium noise-cancelling technology.",
-//     price: 199.99,
-//     category: "Electronics",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.7,
-//     stock: 42,
-//     featured: true,
-//   },
-//   {
-//     id: "3",
-//     name: "Ergonomic Office Chair",
-//     description:
-//       "Designed for comfort during long work hours with adjustable lumbar support.",
-//     price: 249.99,
-//     category: "Furniture",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.5,
-//     stock: 8,
-//   },
-//   {
-//     id: "4",
-//     name: "Organic Cotton T-Shirt",
-//     description:
-//       "Eco-friendly and soft cotton t-shirt, perfect for everyday wear.",
-//     price: 29.99,
-//     category: "Clothing",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.3,
-//     stock: 120,
-//     discount: 15,
-//   },
-//   {
-//     id: "5",
-//     name: "Smart Fitness Watch",
-//     description:
-//       "Track your health metrics and stay connected with this waterproof smart watch.",
-//     price: 149.99,
-//     category: "Electronics",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.6,
-//     stock: 35,
-//     featured: true,
-//   },
-//   {
-//     id: "6",
-//     name: "Stainless Steel Water Bottle",
-//     description:
-//       "Keep your drinks hot or cold for hours with this vacuum-insulated bottle.",
-//     price: 24.99,
-//     category: "Accessories",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.4,
-//     stock: 67,
-//     discount: 10,
-//   },
-//   {
-//     id: "7",
-//     name: "Handmade Ceramic Mug Set",
-//     description:
-//       "Set of 4 artisan mugs, each uniquely crafted with premium glazed ceramic.",
-//     price: 39.99,
-//     category: "Home",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.2,
-//     stock: 23,
-//   },
-//   {
-//     id: "8",
-//     name: "Vintage Denim Jeans",
-//     description:
-//       "Classic fit jeans with premium denim that gets better with age.",
-//     price: 79.99,
-//     category: "Clothing",
-//     image: "/placeholder.svg?height=400&width=300",
-//     rating: 4.5,
-//     stock: 45,
-//     discount: 20,
-//   },
-// ];
 
 const HomeSection = () => {
   // const featuredProducts = products.filter((product) => product.featured);
@@ -137,7 +37,7 @@ const HomeSection = () => {
   return (
     <>
 
-      <div className="flex flex-col gap-10 py-8">
+      <div className="flex flex-col container mx-auto gap-10 py-8">
       <HomeHeaderSlider />
         {/* Hero Section */}
         {/* <section className="container px-4 md:px-6">
@@ -220,7 +120,7 @@ const HomeSection = () => {
           <ProductList />
         </div>
 
-        <section className="container px-4 md:px-6">
+        {/* <section className="container px-4 md:px-6">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold tracking-tight">
@@ -235,15 +135,15 @@ const HomeSection = () => {
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {/* {featuredProducts.map((product) => (
+              {featuredProducts.map((product) => (
               <Link key={product.id} href={`/user/shop/${product.id}`}>
                 <ProductcArd product={product} />
               </Link>
-            ))} */}
+            ))}
               <h1 className="text-red-400"> TODO: Fuatured add products</h1>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section className="container px-4 md:px-6">
           <div className="grid gap-6 md:grid-cols-2">

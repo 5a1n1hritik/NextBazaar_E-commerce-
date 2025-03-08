@@ -1,7 +1,8 @@
-'use client'
+"use client";
 
 import * as React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Heart, ShoppingCart, Star, StarHalf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,12 +13,12 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  category: string;
-  image: string[]; 
-  rating: number;
-  stock: number;
-  featured?: boolean;
   discount?: number;
+  finalPrice?: number;
+  category: { _id: string; name: string };
+  image: string[];
+  rating: number;
+  featured: boolean;
 }
 
 interface ProductCardProps {
@@ -25,6 +26,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const router = useRouter();
+
   return (
     <Card className="overflow-hidden group">
       <div className="relative aspect-square overflow-hidden">
@@ -32,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {product.featured && (
             <Badge
               variant="secondary"
-              className="bg-primary text-primary-foreground"
+              className="bg-primary text-primary-foreground "
             >
               Featured
             </Badge>
@@ -44,19 +47,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Image
           src={
             product.image?.[0] ||
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
+            "https://png.pngtree.com/thumb_back/fh260/background/20230605/pngtree-big-ben-in-london-uk-photo-image_2833914.jpg"
           }
           alt={product.name}
           width={500}
-          height={500}
+          height={800}
           className="object-cover transition-transform group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-          <Button size="icon" variant="secondary" className="rounded-full">
+          <Button
+            size="icon"
+            variant="secondary"
+            className="rounded-full"
+            onClick={() => router.push("/wishlist")}
+          >
             <ShoppingCart className="h-4 w-4" />
             <span className="sr-only">Add to cart</span>
           </Button>
-          <Button size="icon" variant="secondary" className="rounded-full">
+          <Button
+            size="icon"
+            variant="secondary"
+            className="rounded-full"
+            onClick={() => router.push("/wishlist")}
+          >
             <Heart className="h-4 w-4" />
             <span className="sr-only">Add to wishlist</span>
           </Button>
@@ -69,16 +82,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.description}
           </p>
           <p className="text-sm text-muted-foreground truncate">
-            {product.category}
+            {product.category.name}
           </p>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex justify-between items-center">
         <div>
           {product.discount ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span className="font-bold">
-                ${(product.price * (1 - product.discount / 100)).toFixed(4)}
+                ${(product.price * (1 - product.discount / 100)).toFixed(2)}
               </span>
               <span className="text-sm text-muted-foreground line-through">
                 ${product.price.toFixed(2)}
@@ -89,27 +102,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
         <div className="flex items-center text-sm text-muted-foreground">
-          <span className="mr-1">{product.rating}</span>
-          {Array.from({ length: 5 }).map((_, index) => {
-            const starValue = index + 1;
-            if (starValue <= Math.floor(product.rating)) {
-              return (
-                <Star
-                  key={index}
-                  className="w-4 h-4 fill-orange-500 text-orange-500"
-                />
-              );
-            } else if (starValue - 0.5 <= product.rating) {
-              return (
-                <StarHalf
-                  key={index}
-                  className="w-4 h-4 fill-orange-500 text-orange-500"
-                />
-              );
-            } else {
-              return <Star key={index} className="w-4 h-4 text-gray-300" />;
-            }
-          })}
+          <div className="hidden lg:flex items-center">
+            <span className="mr-1">{product.rating}</span>
+            {Array.from({ length: 5 }).map((_, index) => {
+              const starValue = index + 1;
+              if (starValue <= Math.floor(product.rating)) {
+                return (
+                  <Star
+                    key={index}
+                    className="w-4 h-4 fill-orange-500 text-orange-500"
+                  />
+                );
+              } else if (starValue - 0.5 <= product.rating) {
+                return (
+                  <StarHalf
+                    key={index}
+                    className="w-4 h-4 fill-orange-500 text-orange-500"
+                  />
+                );
+              } else {
+                return <Star key={index} className="w-4 h-4 text-gray-300" />;
+              }
+            })}
+          </div>
+
+          <span className="lg:hidden text-sm">{product.rating} ⭐</span>
         </div>
       </CardFooter>
     </Card>

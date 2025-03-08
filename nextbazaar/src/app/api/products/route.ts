@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       images,
       stock,
       featured,
+      rating,
     } = await req.json();
 
     if (!name || !description || !price || !category || !stock) {
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
       images,
       stock,
       featured,
+      rating,
     });
 
     return NextResponse.json(
@@ -66,7 +68,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const products = await Product.find({});
+    const products = await Product.find({}).populate("category", "name");
 
     return NextResponse.json({ success: true, products }, { status: 200 });
   } catch (error) {

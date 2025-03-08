@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -14,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
+
 export const metadata: Metadata = {
   title: "NextBazaar",
   description: "Showcasing my e-commerce products",
@@ -26,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${outfit.className} antialiased text-gray-700`} >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange >
         <Navbar />
         {children}
