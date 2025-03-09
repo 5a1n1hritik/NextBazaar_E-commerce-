@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/utils/db";
 import Category from "@/models/Category";
+import Product from "@/models/Product";
 import mongoose from "mongoose";
 
 export async function GET(
@@ -18,16 +19,16 @@ export async function GET(
       );
     }
 
-    const productId = id.trim();
+    const categoryId = id.trim();
 
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
       return NextResponse.json(
         { success: false, error: "Invalid category ID" },
         { status: 400 }
       );
     }
 
-    const category = await Category.findById(productId);
+    const category = await Category.findById(categoryId);
     if (!category) {
       return NextResponse.json(
         { success: false, error: "Category not found" },
@@ -35,7 +36,14 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ success: true, category }, { status: 200 });
+    const productCount = await Product.countDocuments({ category: categoryId });
+
+    const products = await Product.find({ category: categoryId });
+
+    return NextResponse.json(
+      { success: true, category, productCount, products },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching category:", error);
     return NextResponse.json(

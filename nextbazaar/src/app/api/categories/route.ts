@@ -5,7 +5,27 @@ import Category from "@/models/Category";
 export async function GET() {
   try {
     await connectDB();
-    const categories = await Category.find();
+
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "category",
+          as: "products",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          icon: 1,
+          image: 1,
+          productCount: { $size: "$products" },
+        },
+      },
+    ]);
+
     return NextResponse.json({ success: true, categories }, { status: 200 });
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -19,7 +39,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const { name } = await req.json();
+    const { name, description, icon, image } = await req.json();
 
     if (!name) {
       return NextResponse.json(
@@ -39,7 +59,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newCategory = await Category.create({ name });
+    const newCategory = await Category.create({ name, description, icon, image });
 
     return NextResponse.json(
       { success: true, category: newCategory },
