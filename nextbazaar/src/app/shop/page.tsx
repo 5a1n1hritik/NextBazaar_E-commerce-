@@ -527,7 +527,7 @@ const page = () => {
               {filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredProducts.map((product) => (
-                    <Link key={product._id} href={`/user/shop/${product._id}`}>
+                    <Link key={product._id} href={`/shop/${product._id}`}>
                       <ProductCard product={product} />
                     </Link>
                   ))}
