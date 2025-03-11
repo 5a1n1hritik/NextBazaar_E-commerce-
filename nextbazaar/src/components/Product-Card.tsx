@@ -16,7 +16,7 @@ interface Product {
   discount?: number;
   finalPrice?: number;
   category: { _id: string; name: string };
-  image: string[];
+  images: string[];
   rating: number;
   featured: boolean;
 }
@@ -46,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <Image
           src={
-            product.image?.[0] ||
+            product.images?.[0] ||
             "https://png.pngtree.com/thumb_back/fh260/background/20230605/pngtree-big-ben-in-london-uk-photo-image_2833914.jpg"
           }
           alt={product.name}

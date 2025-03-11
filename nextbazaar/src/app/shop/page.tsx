@@ -40,7 +40,7 @@ interface Product {
   discount?: number;
   finalPrice?: number;
   category: { _id: string; name: string };
-  image: string[];
+  images: string[];
   rating: number;
   featured: boolean;
 }

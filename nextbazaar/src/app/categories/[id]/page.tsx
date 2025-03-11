@@ -33,7 +33,7 @@ interface Product {
   price: number;
   discount?: number;
   finalPrice: number;
-  image: string[];
+  images: string[];
   stock: number;
   rating: number;
   featured: boolean;
