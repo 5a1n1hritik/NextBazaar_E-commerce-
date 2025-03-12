@@ -29,7 +29,7 @@ export async function GET(
       );
     }
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate("category", "name");
     if (!product) {
       return NextResponse.json(
         { success: false, error: "Product not found" },

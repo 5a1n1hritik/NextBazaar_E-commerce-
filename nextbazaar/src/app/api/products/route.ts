@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
     const {
       name,
       description,
+      brand,
       price,
       discount,
       category,
@@ -17,9 +18,11 @@ export async function POST(req: NextRequest) {
       stock,
       featured,
       rating,
+      specifications,
+      tags
     } = await req.json();
 
-    if (!name || !description || !price || !category || !stock) {
+    if (!name || !description || !brand  || !price || !category || !stock || !specifications) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
         { status: 400 }
@@ -42,6 +45,7 @@ export async function POST(req: NextRequest) {
     const newProduct = await Product.create({
       name,
       description,
+      brand,
       price,
       discount,
       finalPrice,
@@ -50,6 +54,8 @@ export async function POST(req: NextRequest) {
       stock,
       featured,
       rating,
+      specifications,
+      tags
     });
 
     return NextResponse.json(

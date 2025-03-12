@@ -31,7 +31,7 @@ const Page = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1)
-  const [activeImage, setActiveImage] = useState([])
+  const [activeImage, setActiveImage] = useState<number>(0)
   const [isWishlisted, setIsWishlisted] = useState(false)
 
 
@@ -49,7 +49,7 @@ const Page = () => {
         if (data.success) {
           setProductsData(data.product);
           console.log("Product:", data.product);
-          fetchRelatedProducts(data.product.category)
+          fetchRelatedProducts(data.product.category._id)
           console.log("Product category id:", data.product.category);
         } else {
           setError("Failed to load product.");
@@ -67,37 +67,14 @@ const Page = () => {
 
   const [relatedproductsData, setRelatedProducts] = useState<Product[]>([]);
 
-  // useEffect(() => {
-  //   if (productsData) {
-  //     const fetchRelatedProducts = async () => {
-  //       try {
-  //         const response = await fetch(`/api/products?category=${productsData.category._id}`);
-  //         const data = await response.json();
-
-  //         if (data.success) {
-  //           setRelatedProducts(data.products.filter((p: Product) => p._id !== productsData._id).slice(0, 4));
-  //         } else {
-  //           setError("Failed to load related products.");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error Fetching Related Products:", error);
-  //         setError("Failed to load related products. Please try again later.");
-  //       }
-  //     };
-
-  //     fetchRelatedProducts();
-  //   }
-  // }, [productsData]);
-
   const fetchRelatedProducts = async (categoryId: string) => {
     try {
       const response = await fetch(`/api/categories/${categoryId}`);
       const data = await response.json();
   
       if (data.success) {
-        // Exclude the current product from related products
-        const filteredProducts = data.products.filter((prod: Product) => prod._id !== categoryId);
-        setRelatedProducts(filteredProducts.slice(0, 4));
+        const filteredProducts = data.products.filter((prod: Product) => prod._id !== categoryId).slice(0, 4);
+        setRelatedProducts(filteredProducts);
       }
     } catch (error) {
       console.error("Error Fetching Related Products:", error);
@@ -105,30 +82,28 @@ const Page = () => {
   };
 
   const handleQuantityChange = (newQuantity: number) => {
-    if (productsData && newQuantity >= 1 && newQuantity <= productsData.stock) {
+    if (newQuantity < 1) return; 
+    if (productsData && newQuantity <= productsData.stock) {
       setQuantity(newQuantity);
     }
   };
+  
 
   const handleAddToCart = () => {
     // console.log(`Added ${quantity} of ${productsData.name} to cart.`);
     if (productsData) {
-      toast({
-        title: "Added to cart",
-        description: `${quantity} × ${productsData.name} added to your cart`,
-      });
+      toast.success(`Added ${quantity} × ${productsData.name} to cart`);
     }
   };
 
   const handleToggleWishlist = () => {
     setIsWishlisted(!isWishlisted);
     if (productsData) {
-      toast({
-        title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
-        description: isWishlisted
-          ? `${productsData.name} has been removed from your wishlist`
-          : `${productsData.name} has been added to your wishlist`,
-      });
+      if (isWishlisted) {
+        toast.error(`${productsData.name} has been removed from your wishlist`);
+      } else {
+        toast.success(`${productsData.name} has been added to your wishlist`);
+      }      
     }
   };
 
@@ -138,92 +113,10 @@ const Page = () => {
 
   return (
     <>
-      {/* <div className="container px-4 md:px-6 py-8">
-        <div className="mb-6">
-          <Link href="/user/shop" className="flex items-center text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to shop
-          </Link>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-          <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-lg border">
-              <Image
-                src={productsData.images?.[activeImage] || "/placeholder.svg"}
-                alt={productsData.name || "Product Image"}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <h1 className="text-3xl font-bold">{productsData.name}</h1>
-            <div className="flex items-center mt-2 space-x-4">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`h-5 w-5 ${i < Math.floor(productsData.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                ))}
-                <span className="ml-2 text-sm text-muted-foreground">{productsData.rating} ({Math.floor(Math.random() * 100) + 10} reviews)</span>
-              </div>
-            </div>
-
-            <div className="prose prose-sm max-w-none">
-              <p>{productsData.description}</p>
-            </div>
-
-            <div className="pt-4 space-y-4">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-10 w-10"
-                onClick={() => navigator.clipboard.writeText(window.location.href)}
-              >
-                <Share2 className="h-5 w-5" />
-              </Button>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="flex items-center space-x-2">
-                  <Truck className="h-4 w-4 text-muted-foreground" />
-                  <span>Free shipping over $50</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RotateCcw className="h-4 w-4 text-muted-foreground" />
-                  <span>30-day returns</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Shield className="h-4 w-4 text-muted-foreground" />
-                  <span>2-year warranty</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-12">
-          <Tabs defaultValue="description">
-            <TabsList className="w-full grid grid-cols-3 mb-6">
-              <TabsTrigger value="description">Description</TabsTrigger>
-              <TabsTrigger value="specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            </TabsList>
-            <TabsContent value="description">
-              <p>{productsData.description}</p>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div> */}
-
-
-
-
-
       <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="mb-6">
         <Link
-          href="/user/shop"
+          href="/shop"
           className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -232,11 +125,10 @@ const Page = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-        {/* Product Image Gallery */}
         <div className="space-y-4">
           <div className="relative aspect-square overflow-hidden rounded-lg border">
             <Image
-              src={productsData.images?.[0] || "/placeholder.svg"}
+              src={productsData.images[activeImage] || "/placeholder.svg"}
               alt={productsData.name || "Product Image"}
               fill
               className="object-cover"
@@ -268,7 +160,6 @@ const Page = () => {
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold">{productsData.name}</h1>
@@ -360,10 +251,7 @@ const Page = () => {
                   className="h-10 w-10"
                   onClick={() => {
                     navigator.clipboard.writeText(window.location.href)
-                    toast.success({
-                      title: "Link copied",
-                      description: "Product link copied to clipboard",
-                    })
+                    toast.success("Product link copied to clipboard")
                   }}
                 >
                   <Share2 className="h-5 w-5" />
@@ -389,7 +277,6 @@ const Page = () => {
         </div>
       </div>
 
-      {/* Product Tabs */}
       <div className="mt-12">
         <Tabs defaultValue="description">
           <TabsList className="w-full grid grid-cols-3 mb-6">
@@ -401,19 +288,6 @@ const Page = () => {
             <div className="prose prose-lg max-w-none">
               <h3>Product Description</h3>
               <p>{productsData.description}</p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed euismod, nisl eget aliquam
-                tincidunt, nunc nunc aliquet nunc, eget aliquam magna nunc eget nunc. Sed euismod, nisl eget aliquam
-                tincidunt, nunc nunc aliquet nunc, eget aliquam magna nunc eget nunc.
-              </p>
-              <h4>Features</h4>
-              <ul>
-                <li>Premium quality materials</li>
-                <li>Durable construction</li>
-                <li>Comfortable fit</li>
-                <li>Versatile design</li>
-                <li>Easy maintenance</li>
-              </ul>
             </div>
           </TabsContent>
           <TabsContent value="specifications" className="space-y-4">
@@ -422,7 +296,7 @@ const Page = () => {
                 <tbody className="divide-y divide-border">
                   <tr>
                     <td className="px-4 py-3 text-sm font-medium">Brand</td>
-                    <td className="px-4 py-3 text-sm">StyleShop</td>
+                    <td className="px-4 py-3 text-sm">{productsData.name}</td>
                   </tr>
                   <tr>
                     <td className="px-4 py-3 text-sm font-medium">Category</td>
@@ -495,7 +369,6 @@ const Page = () => {
         </Tabs>
       </div>
 
-      {/* Related Products */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

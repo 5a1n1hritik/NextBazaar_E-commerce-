@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface IProduct extends Document {
   name: string;
   description: string;
+  brand: string;
   price: number;
   discount?: number;
   finalPrice: number;
@@ -10,6 +11,8 @@ export interface IProduct extends Document {
   images: string[];
   stock: number;
   rating: number;
+  tags?: string[];
+  specifications: Record<string, string>;
   featured: boolean;
   reviews: mongoose.Types.ObjectId[];
 }
@@ -23,6 +26,11 @@ const ProductSchema = new Schema<IProduct>(
     description: {
       type: String,
       required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+      trim: true,
     },
     price: {
       type: Number,
@@ -49,6 +57,17 @@ const ProductSchema = new Schema<IProduct>(
     rating: {
       type: Number,
       default: 0,
+    },
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    specifications: {
+      type: Map,
+      of: String, 
+      default: {},
     },
     featured: {
       type: Boolean,
