@@ -12,7 +12,7 @@ export interface IProduct extends Document {
   stock: number;
   rating: number;
   tags?: string[];
-  specifications: Record<string, string>;
+  specifications: Record<string, any>;
   featured: boolean;
   reviews: mongoose.Types.ObjectId[];
 }
@@ -66,7 +66,7 @@ const ProductSchema = new Schema<IProduct>(
     ],
     specifications: {
       type: Map,
-      of: String, 
+      of: Schema.Types.Mixed, 
       default: {},
     },
     featured: {
