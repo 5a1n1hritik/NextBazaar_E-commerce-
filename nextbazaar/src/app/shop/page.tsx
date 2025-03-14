@@ -251,7 +251,7 @@ const page = () => {
 
   return (
     <>
-      <div className="container px-4 md:px-6 py-8">
+      <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="flex flex-col gap-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Shop</h1>

@@ -25,6 +25,9 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "react-hot-toast";
 import ProductCard from "@/components/Product-Card";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/context/CartContext";
+import { Input } from "@/components/ui/input";
+import WishlistButton from "@/components/WishlistButton";
 
 interface Product {
   _id: string;
@@ -49,13 +52,15 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState<number>(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const [isScrolled, setIsScrolled] = useState(false);
   const imageRef = useRef<HTMLDivElement>(null);
+  const [added, setAdded] = useState(false);
+  const { addToCart, updateQuantity } = useCart();
+
   const sizes: string[] = ["S", "M", "L", "XL", "XS", "XXL"];
   const colors: string[] = ["Red", "Blue", "Green", "Black", "White"];
 
@@ -107,29 +112,8 @@ const Page = () => {
     }
   };
 
-  const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity < 1) return;
-    if (productsData && newQuantity <= productsData.stock) {
-      setQuantity(newQuantity);
-    }
-  };
-
-  const handleAddToCart = () => {
-    // console.log(`Added ${quantity} of ${productsData.name} to cart.`);
-    if (productsData) {
-      toast.success(`Added ${quantity} × ${productsData.name} to cart`);
-    }
-  };
-
-  const handleToggleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    if (productsData) {
-      if (isWishlisted) {
-        toast.error(`${productsData.name} has been removed from your wishlist`);
-      } else {
-        toast.success(`${productsData.name} has been added to your wishlist`);
-      }
-    }
+  const handleQuantityChange = (value: number) => {
+    setQuantity(Math.max(1, value));
   };
 
   useEffect(() => {
@@ -424,23 +408,23 @@ const Page = () => {
                   </div>
                   <div className="flex items-center border rounded-md dark:border-gray-700 border-gray-300">
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="icon"
                       onClick={() => handleQuantityChange(quantity - 1)}
-                      disabled={quantity <= 1}
-                      className="h-10 w-10"
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <span className="w-12 text-center text-base font-medium">
-                      {quantity}
-                    </span>
+                    <Input
+                      type="number"
+                      value={quantity}
+                      className="w-16 text-center"
+                      min="1"
+                      onChange={(e) => handleQuantityChange(Number(e.target.value))}
+                    />
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="icon"
                       onClick={() => handleQuantityChange(quantity + 1)}
-                      disabled={quantity >= productsData.stock}
-                      className="h-10 w-10"
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -451,25 +435,36 @@ const Page = () => {
                   <Button
                     className="flex-1 h-12 text-base shadow-md hover:shadow-lg transition-shadow"
                     size="lg"
-                    onClick={handleAddToCart}
+                    onClick={() => {
+                      addToCart({
+                        id: productsData._id,
+                        name: productsData.name,
+                        price: productsData.price,
+                        image: Array.isArray(productsData.images)
+                          ? productsData.images[0]
+                          : productsData.images,
+                        quantity: quantity,
+                      });
+                      setAdded(true);
+                      setTimeout(() => setAdded(false), 2000);
+                    }}
                     disabled={productsData.stock === 0}
                   >
                     <ShoppingCart className="mr-2 h-5 w-5" />
-                    Add to Cart
+                    {added ? "Added" : "Add to Cart"}
                   </Button>
 
-                  <Button
-                    variant={isWishlisted ? "default" : "outline"}
-                    size="icon"
-                    className="h-12 w-12"
-                    onClick={handleToggleWishlist}
-                  >
-                    <Heart
-                      className={`h-5 w-5 ${
-                        isWishlisted ? "fill-current" : ""
-                      }`}
-                    />
-                  </Button>
+                  <WishlistButton
+                    product={{
+                      id: productsData._id,
+                      name: productsData.name,
+                      price: productsData.price,
+                      image: Array.isArray(productsData.images)
+                        ? productsData.images[0]
+                        : productsData.images,
+                      inStock: productsData.stock,
+                    }}
+                  />
 
                   <Button
                     variant="outline"
@@ -830,12 +825,26 @@ const Page = () => {
               </div>
             </div>
             <Button
-              onClick={handleAddToCart}
+              onClick={() => {
+                addToCart({
+                  id: productsData._id,
+                  name: productsData.name,
+                  price: productsData.price,
+                  image: Array.isArray(productsData.images)
+                    ? productsData.images[0]
+                    : productsData.images,
+                  quantity: 1,
+                });
+                setAdded(true);
+                setTimeout(() => setAdded(false), 2000);
+              }}
               disabled={productsData.stock === 0}
-              className="shadow-md"
+              className={`shadow-md text-white ${
+                added ? "bg-green-500" : "bg-blue-500 hover:bg-blue-700"
+              }`}
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
-              Add to Cart
+              {added ? "Added" : "Add to Cart"}
             </Button>
           </div>
         </div>

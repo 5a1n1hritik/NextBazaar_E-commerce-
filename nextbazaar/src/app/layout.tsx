@@ -4,6 +4,8 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +33,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.className} antialiased text-gray-700`} >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange >
+        <CartProvider>
+        <WishlistProvider>
         <Navbar />
         {children}
+        </WishlistProvider>
+        </CartProvider>
         </ThemeProvider>
       </body>
     </html>
