@@ -32,6 +32,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images-cdn.ubuy.co.in",
       },
+      {
+        protocol: "https",
+        hostname: "static.vecteezy.com",
+      },
     ],
   },
 };
