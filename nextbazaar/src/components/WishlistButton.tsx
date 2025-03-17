@@ -29,12 +29,6 @@ const WishlistButton = ({
           isInWishlist ? removeFromWishlist(product.id) : addToWishlist(product)
         }
       >
-        {/* {isInWishlist ? (
-          <HeartOff className="h-4 w-4 mr-2" />
-        ) : (
-          <Heart className="h-4 w-4 mr-2" />
-        )}
-        {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"} */}
         <Heart className={`h-5 w-5 ${isInWishlist ? "fill-current" : ""}`} />
       </Button>
     </>

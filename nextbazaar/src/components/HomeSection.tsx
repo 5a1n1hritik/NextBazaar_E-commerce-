@@ -74,12 +74,12 @@ const HomeSection = () => {
         <section className="container px-4 md:px-6">
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold tracking-tight">
+              <h2 className="text-2xl font-bold tracking-tight dark:text-white">
                 Shop by Category
               </h2>
               <Link
-                href="/user/categories"
-                className="flex items-center gap-1 text-sm font-medium text-primary"
+                href="/categories"
+                className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary dark:text-white dark:hover:text-primary"
               >
                 View all
                 <ArrowRight className="h-4 w-4" />
@@ -89,7 +89,7 @@ const HomeSection = () => {
               {categories.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/user/categories/${category.name.toLowerCase()}`}
+                  href={`/categories/${category.name.toLowerCase()}`}
                 >
                   <Card className="overflow-hidden h-full transition-colors hover:border-primary">
                     <CardContent className="p-4 flex flex-col items-center text-center gap-2">
@@ -150,13 +150,13 @@ const HomeSection = () => {
             <div className="relative overflow-hidden rounded-lg">
               <div className="bg-muted/50 relative flex flex-col items-start gap-2 p-6">
                 <div className="grid gap-1">
-                  <h3 className="text-xl font-bold">New Arrivals</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="text-xl font-bold dark:text-white">New Arrivals</h3>
+                  <p className="text-sm text-muted-foreground dark:text-gray-300">
                     Check out our latest collection
                   </p>
                 </div>
-                <Link href="/user/shop?sort=newest">
-                  <Button size="sm">Shop Now</Button>
+                <Link href="/shop?sort=newest">
+                  <Button size="sm" className="text-white ">Shop Now</Button>
                 </Link>
               </div>
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/80 to-background/30" />
@@ -171,13 +171,13 @@ const HomeSection = () => {
             <div className="relative overflow-hidden rounded-lg">
               <div className="bg-muted/50 relative flex flex-col items-start gap-2 p-6">
                 <div className="grid gap-1">
-                  <h3 className="text-xl font-bold">Special Offers</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="text-xl font-bold dark:text-white">Special Offers</h3>
+                  <p className="text-sm text-muted-foreground dark:text-gray-300">
                     Up to 40% off on selected items
                   </p>
                 </div>
-                <Link href="/user/shop?discount=true">
-                  <Button size="sm">View Offers</Button>
+                <Link href="/shop?discount=true">
+                  <Button size="sm" className="text-white">View Offers</Button>
                 </Link>
               </div>
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/80 to-background/30" />

@@ -11,9 +11,10 @@ interface Product {
   description: string;
   price: number;
   discount?: number;
+  stock: number;
   finalPrice?: number;
   category: { _id: string; name: string };
-  image: string[];
+  images: string[];
   rating: number;
   featured: boolean;
 }
@@ -53,12 +54,12 @@ const ProductList = () => {
       <section className="container px-4 md:px-6">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight">
+            <h2 className="text-2xl font-bold tracking-tight dark:text-white">
             Popular Products
             </h2>
             <Link
               href="/shop"
-              className="flex items-center gap-1 text-sm font-medium text-primary"
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary dark:text-white dark:hover:text-primary"
             >
               View all
               <ArrowRight className="h-4 w-4" />

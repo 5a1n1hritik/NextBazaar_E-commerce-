@@ -7,49 +7,6 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-// const categoryIcons: Record<string, string> = {
-//   Clothing: "👕",
-//   Electronics: "🎧",
-//   Furniture: "🪑",
-//   Accessories: "👜",
-//   Home: "🏠",
-//   "Kitchen & Dining": "🍽️",
-//   "Home Decor": "🖼️",
-//   "Bedding & Mattresses": "🛏️",
-//   "Men's Clothing": "👔",
-//   "Women's Clothing": "👗",
-//   "Kids' Clothing": "👕",
-//   "Shoes & Footwear": "👞",
-//   "Bags & Accessories": "🎒",
-//   Sunglasses: "🕶️",
-//   Jewelry: "💍",
-//   Watches: "⌚",
-//   "Belts & Wallets": "👛",
-//   "Mobile Phones": "📱",
-//   "Laptops & Computers": "💻",
-//   Smartwatches: "⌚",
-//   "Headphones & Earbuds": "🎧",
-//   "Cameras & Photography": "📸",
-//   "Gaming Consoles": "🎮",
-//   "Gym Equipment": "🏋️",
-//   Sportswear: "👕",
-//   Supplements: "💊",
-//   "Makeup & Cosmetics": "💄",
-//   Skincare: "🧴",
-//   Haircare: "💇",
-//   "Baby Clothing": "👶",
-//   "Toys & Games": "🧸",
-//   "School Supplies": "📚",
-//   "Car Accessories": "🚗",
-//   "Motorcycle Accessories": "🏍️",
-//   "Spare Parts": "🛠️",
-//   "Educational Books": "📑",
-//   "Office Supplies": "✏️",
-//   "Musical Instruments": "🎸",
-//   "Art & Crafts": "🎨",
-// };
-
-
 
 interface Categories {
   _id: string;
