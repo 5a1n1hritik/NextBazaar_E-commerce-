@@ -17,14 +17,15 @@ import ProductForm from "@/components/ProductForm";
 interface Product {
   _id: string;
   name: string;
-  price: number;
   description: string;
-  image: string[];
-  category: string;
-  offerPrice?: number;
-  rating?: number;
-  numReviews?: number;
-  countInStock: number;
+  price: number;
+  discount?: number;
+  finalPrice?: number;
+  category: { _id: string; name: string };
+  images: string[];
+  rating: number;
+  featured: boolean;
+  stock: number;
 }
 
 export default function ProductsPage() {
@@ -125,10 +126,10 @@ export default function ProductsPage() {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{product?.name || "No Name"}</TableCell>
                   <TableCell>
-                    {product?.category || "No Category"}
+                    {product?.category.name || "No Category"}
                   </TableCell>
                   <TableCell>${product?.price?.toFixed(2) || "0.00"}</TableCell>
-                  <TableCell>{product?.countInStock || 0}</TableCell>
+                  <TableCell>{product?.stock || 0}</TableCell>
                   <TableCell>
                     <Button variant="outline" size="sm" className="mr-2">
                       Edit

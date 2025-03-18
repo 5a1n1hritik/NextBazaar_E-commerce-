@@ -1,9 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, Youtube, Mail } from "lucide-react";
 
 const Footer = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+
   return (
     <footer className="bg-gray-900 text-gray-300 py-10">
       <div className="container mx-auto px-4">
@@ -100,7 +108,7 @@ const Footer = () => {
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between border-t border-gray-700 pt-6">
           <p className="text-sm">
-            &copy; {new Date().getFullYear()} NextBazaar. All rights reserved.
+            &copy; {year} NextBazaar. All rights reserved.
           </p>
           <div className="flex gap-4 mt-4 sm:mt-0">
             <Link href="https://facebook.com" className="hover:text-white">
