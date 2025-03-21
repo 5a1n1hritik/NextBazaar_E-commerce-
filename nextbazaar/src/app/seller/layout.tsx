@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { Toaster } from "@/components/ui/toaster"
 
 const navItems = [
   { name: "Dashboard", href: "/seller", icon: LayoutDashboard },
@@ -235,6 +236,7 @@ export default function AdminLayout({
           </nav>
         </header>
         <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
+        <Toaster />
       </div>
     </div>
   );

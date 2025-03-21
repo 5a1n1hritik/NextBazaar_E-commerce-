@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "NextBazaar",
   description: "Showcasing my e-commerce products",
 };
-
+import { Toaster } from "@/components/ui/toaster"
 import LayoutWrapper from "@/components/LayoutWrapper";
 
 export default function RootLayout({
@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.className} antialiased text-gray-700`}>
         <LayoutWrapper>{children}</LayoutWrapper>
+        <Toaster />
       </body>
     </html>
   );
