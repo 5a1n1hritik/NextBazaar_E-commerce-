@@ -104,10 +104,15 @@ export default function ProductsPage() {
               Manage your product inventory and details
             </p>
           </div>
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Product
-          </Button>
+          <Link href="/seller/products/add">
+            <Button
+              variant="outline"
+              className="flex items-center bg-primary text-primary-foreground"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Product
+            </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
