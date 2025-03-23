@@ -21,6 +21,7 @@ import star_dull_icon from "../../public/assets/star_dull_icon.svg";
 import jbl_soundbox_images from "../../public/assets/jbl_soundbox_image.png";
 import md_controller_image from "../../public/assets/md_controller_image.png";
 import sm_controller_image from "../../public/assets/md_controller_image.png";
+import Fashion_Sale_Banner from "../../public/assets/Fashion Sale Banner.png";
 
 const assets = {
   images: {
@@ -42,6 +43,7 @@ const assets = {
     jbl_soundbox_images,
     md_controller_image,
     sm_controller_image,
+    Fashion_Sale_Banner,
   },
   icons: {
     arrow_icon,

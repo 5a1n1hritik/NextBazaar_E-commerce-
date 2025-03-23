@@ -43,7 +43,7 @@ const Header = () => {
     { name: "Home", href: "/" },
     { name: "Shop", href: "/shop" },
     { name: "Categories", href: "/categories" },
-    { name: "My Order", href: "/order" },
+    { name: "My Order", href: "/orders" },
     { name: "Sign Up", href: "/signup" },
   ];
 
@@ -84,7 +84,10 @@ const Header = () => {
             href="/"
             className="text-2xl font-bold items-center dark:text-white"
           >
-            <span className=" font-bold sm:inline-block">NextBazaar</span>
+            <h1 className="text-2xl font-bold  sm:inline-block ">
+              <span className="text-primary">NextB</span>
+              azaar
+            </h1>
           </Link>
 
           <nav className="hidden md:flex space-x-6">
@@ -155,7 +158,7 @@ const Header = () => {
                   <LogOut className="h-5 w-5" />
                   Logout
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("light")}>
+                {/* <DropdownMenuItem onClick={() => setTheme("light")}>
                   <Sun className="h-5 w-5" />
                   Light
                 </DropdownMenuItem>
@@ -166,7 +169,7 @@ const Header = () => {
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                   <Monitor className="h-5 w-5" />
                   System
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
