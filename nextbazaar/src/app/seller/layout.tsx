@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 
 const navItems = [
   { name: "Dashboard", href: "/seller", icon: LayoutDashboard },
@@ -58,6 +58,16 @@ export default function AdminLayout({
 }>) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const admin = "Admin User"; // Replace with actual admin name
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -98,7 +108,10 @@ export default function AdminLayout({
         <div className="border-t p-4">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="Admin" />
+              <AvatarImage
+                src={`https://avatar.vercel.sh/${getInitials(admin)}`}
+                alt={admin}
+              />
               <AvatarFallback>AD</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
@@ -167,7 +180,10 @@ export default function AdminLayout({
           <div className="border-t p-4">
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="Admin" />
+              <AvatarImage
+                src={`https://avatar.vercel.sh/${getInitials(admin)}`}
+                alt={admin}
+              />
                 <AvatarFallback>AD</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
