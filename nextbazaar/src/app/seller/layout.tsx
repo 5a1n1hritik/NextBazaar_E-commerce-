@@ -44,11 +44,11 @@ const navItems = [
   { name: "Categories", href: "/seller/categories", icon: Tag },
   { name: "Orders", href: "/seller/orders", icon: ShoppingBag },
   { name: "Customers", href: "/seller/users", icon: Users },
-  { name: "Payments", href: "/seller/Payments", icon: CreditCard },
-  { name: "Reviews", href: "/seller/Reviews", icon: FileText },
-  { name: "Coupons", href: "/seller/Coupons", icon: Box },
-  { name: "Reports", href: "/seller/Reports", icon: BarChart3 },
-  { name: "Settings", href: "/seller/Settings", icon: Settings },
+  { name: "Payments", href: "/seller/payments", icon: CreditCard },
+  { name: "Reviews", href: "/seller/reviews", icon: FileText },
+  { name: "Coupons", href: "/seller/coupons", icon: Box },
+  { name: "Reports", href: "/seller/reports", icon: BarChart3 },
+  { name: "Settings", href: "/seller/settings", icon: Settings },
 ];
 
 export default function AdminLayout({
