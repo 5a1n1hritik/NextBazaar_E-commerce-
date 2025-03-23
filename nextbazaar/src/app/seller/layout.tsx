@@ -120,7 +120,7 @@ export default function AdminLayout({
                 admin@styleshop.com
               </span>
             </div>
-            <Link href="/seller/logout" className="ml-auto">
+            <Link href="/" className="ml-auto">
               <Button variant="ghost" size="icon">
                 <LogOut className="h-4 w-4" />
                 <span className="sr-only">Log out</span>
@@ -192,7 +192,7 @@ export default function AdminLayout({
                   admin@styleshop.com
                 </span>
               </div>
-              <Link href="/seller/logout" className="ml-auto">
+              <Link href="/" className="ml-auto">
                 <Button variant="ghost" size="icon">
                   <LogOut className="h-4 w-4" />
                   <span className="sr-only">Log out</span>
@@ -232,7 +232,7 @@ export default function AdminLayout({
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link href="/seller/profile" className="flex w-full">
+                  <Link href="/seller/settings" className="flex w-full">
                     Profile
                   </Link>
                 </DropdownMenuItem>
@@ -243,7 +243,7 @@ export default function AdminLayout({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link href="/seller/logout" className="flex w-full">
+                  <Link href="/" className="flex w-full">
                     Log out
                   </Link>
                 </DropdownMenuItem>
