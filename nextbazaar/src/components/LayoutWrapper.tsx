@@ -8,6 +8,7 @@ import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ProductProvider } from "@/context/ProductsContext";
 
 export const metadata: Metadata = {
   title: "NextBazaar",
@@ -37,6 +38,7 @@ export default function LayoutWrapper({
       enableSystem
       disableTransitionOnChange
     >
+      <ProductProvider>
       <CartProvider>
         <WishlistProvider>
           {!isAdmin && <Navbar />}
@@ -44,6 +46,7 @@ export default function LayoutWrapper({
           {!isAdmin && <Footer />}
         </WishlistProvider>
       </CartProvider>
+      </ProductProvider>
     </ThemeProvider>
   );
 }
