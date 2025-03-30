@@ -15,12 +15,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toast } from "react-hot-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const Page = () => {
   const { wishlist, removeFromWishlist } = useWishlist();
   const { addToCart } = useCart();
   const [addedToCart, setAddedToCart] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleAddToCart = (item: any) => {
     addToCart({
@@ -31,7 +32,7 @@ const Page = () => {
       quantity: 1,
     });
     setAddedToCart(item.id);
-    toast.success(`${item.name} added to cart!`);
+    toast({ title: "Added to cart!" });
     setTimeout(() => setAddedToCart(null), 2000);
   };
 
@@ -89,7 +90,7 @@ const Page = () => {
                       variant="outline"
                       onClick={() => {
                         removeFromWishlist(item.id);
-                        toast.error(`${item.name} removed from wishlist.`);
+                        toast({ title: "removed from wishlist." });
                       }}
                     >
                       <Trash2 className="h-4 w-4" />

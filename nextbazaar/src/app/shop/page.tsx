@@ -43,13 +43,16 @@ interface Product {
   images: string[];
   rating: number;
   featured: boolean;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const page = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 10000]);
+
   const [categories, setCategories] = useState<string[]>([]);
   const [ratings, setRatings] = useState<number[]>([]);
   const [sortOption, setSortOption] = useState("featured");
@@ -61,12 +64,10 @@ const page = () => {
   const allCategories = [
     ...new Set(products.map((product) => product.category.name)),
   ];
-  const minPrice = products.length
-    ? Math.min(...products.map((p) => p.finalPrice || p.price))
-    : 0;
-  const maxPrice = products.length
-    ? Math.max(...products.map((p) => p.finalPrice || p.price))
-    : 10000;
+
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(10000);
 
   useEffect(() => {
     const fetchproducts = async () => {
@@ -75,6 +76,16 @@ const page = () => {
         const data = await response.json();
         if (data.success) {
           setProducts(data.products);
+
+          const minPrice = Math.min(
+            ...data.products.map((p: Product) => p.finalPrice || p.price)
+          );
+          const maxPrice = Math.max(
+            ...data.products.map((p: Product) => p.finalPrice || p.price)
+          );
+          setMinPrice(minPrice);
+          setMaxPrice(maxPrice);
+          setPriceRange([minPrice, maxPrice]);
         } else {
           console.log("Failed to fetch products", data.message);
           setError("Failed to fetch products" + data.message);
@@ -102,7 +113,7 @@ const page = () => {
     if (categories.length > 0) {
       filteredProducts = filteredProducts.filter(
         (product) =>
-          product.category && categories.includes(product.category.name)
+          product.category?.name && categories.includes(product.category.name)
       );
     }
 
@@ -113,28 +124,34 @@ const page = () => {
       });
     }
 
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        (product.finalPrice ?? product.price) >= priceRange[0] &&
-        (product.finalPrice ?? product.price) <= priceRange[1]
-    );
+    if (priceRange[0] !== minPrice || priceRange[1] !== maxPrice) {
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          (product.finalPrice ?? product.price) >= priceRange[0] &&
+          (product.finalPrice ?? product.price) <= priceRange[1]
+      );
+    }
 
     switch (sortOption) {
       case "price-low":
-        filteredProducts.sort((a, b) => a.price - b.price);
+        filteredProducts.sort(
+          (a, b) => (a.finalPrice ?? a.price) - (b.finalPrice ?? b.price)
+        );
         break;
       case "price-high":
-        filteredProducts.sort((a, b) => b.price - a.price);
+        filteredProducts.sort(
+          (a, b) => (b.finalPrice ?? b.price) - (a.finalPrice ?? a.price)
+        );
         break;
       case "rating":
         filteredProducts.sort((a, b) => b.rating - a.rating);
         break;
-      // case "newest":
-      //   filteredProducts.sort(
-      //     (a, b) => Number.parseInt(b._id) - Number.parseInt(a._id)
-      //   );
-      //   break;
-      default: 
+      case "newest":
+        filteredProducts.sort(
+          (a, b) => Number.parseInt(b.createdAt) - Number.parseInt(a.createdAt)
+        );
+        break;
+      default:
         filteredProducts = filteredProducts
           .filter((product) => product.featured)
           .concat(filteredProducts.filter((product) => !product.featured));
@@ -148,7 +165,16 @@ const page = () => {
     if (ratings.length > 0) filterCount++;
     if (priceRange[0] > 0 || priceRange[1] < maxPrice) filterCount++;
     setActiveFilters(filterCount);
-  }, [searchQuery, categories, ratings, priceRange, sortOption]);
+  }, [
+    searchQuery,
+    categories,
+    ratings,
+    priceRange,
+    sortOption,
+    products,
+    minPrice,
+    maxPrice,
+  ]);
 
   const handleCategoryToggle = (categoryName: string) => {
     setCategories((prev) =>
@@ -170,8 +196,10 @@ const page = () => {
     setSearchQuery("");
     setCategories([]);
     setRatings([]);
-    setPriceRange([0, maxPrice]);
+    setPriceRange([minPrice, maxPrice]);
     setSortOption("featured");
+
+    setFilteredProducts(products);
   };
 
   const FilterDrawer = () => (
@@ -251,7 +279,7 @@ const page = () => {
 
   return (
     <>
-      <div className="container mx-auto px-4 md:px-6 py-8">
+      <div className=" px-4 md:px-6 py-8">
         <div className="flex flex-col gap-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Shop</h1>
@@ -296,7 +324,7 @@ const page = () => {
                 <SelectItem value="featured">Featured</SelectItem>
                 <SelectItem value="price-low">Price: Low to High</SelectItem>
                 <SelectItem value="price-high">Price: High to Low</SelectItem>
-                {/* <SelectItem value="newest">Newest First</SelectItem> */}
+                <SelectItem value="newest">Newest First</SelectItem>
                 <SelectItem value="rating">Highest Rated</SelectItem>
               </SelectContent>
             </Select>
@@ -419,7 +447,7 @@ const page = () => {
                       <SelectItem value="price-high">
                         Price: High to Low
                       </SelectItem>
-                      {/* <SelectItem value="newest">Newest First</SelectItem> */}
+                      <SelectItem value="newest">Newest First</SelectItem>
                       <SelectItem value="rating">Highest Rated</SelectItem>
                     </SelectContent>
                   </Select>
@@ -525,7 +553,7 @@ const page = () => {
               )}
 
               {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {filteredProducts.map((product) => (
                     <Link key={product._id} href={`/shop/${product._id}`}>
                       <ProductCard product={product} />
@@ -544,11 +572,12 @@ const page = () => {
                 </div>
               )}
 
-              {filteredProducts.length > 0 && filteredProducts.length < filteredProducts.length && (
-                <div className="flex justify-center">
-                  <Button variant="outline">Load More</Button>
-                </div>
-              )}
+              {filteredProducts.length > 0 &&
+                filteredProducts.length < filteredProducts.length && (
+                  <div className="flex justify-center">
+                    <Button variant="outline">Load More</Button>
+                  </div>
+                )}
             </div>
           </div>
         </div>

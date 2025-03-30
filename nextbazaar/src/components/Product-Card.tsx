@@ -4,11 +4,11 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import { WishlistContext } from "@/context/WishlistContext";
 import Image from "next/image";
-import { Heart, ShoppingCart} from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import toast from "react-hot-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/context/CartContext";
 
 interface Product {
@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [hovered, setHovered] = useState(false);
   const { addToCart } = useCart();
   const [addedToCart, setAddedToCart] = useState<string | null>(null);
-
+  const { toast } = useToast();
   const wishlistContext = useContext(WishlistContext);
   if (!wishlistContext) return null;
 
@@ -48,15 +48,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.stopPropagation();
 
     addToCart({
-      id: item.id,
+      id: item._id,
       name: item.name,
       price: item.price,
-      image: Array.isArray(item.image) ? item.image[0] : item.image,
+      image: Array.isArray(item.images) ? item.images[0] : item.images,
       quantity: 1,
     });
 
     setAddedToCart(item.id);
-    toast.success(`${item.name} added to cart!`);
+    toast({ title: "Added to cart!" });
     setTimeout(() => setAddedToCart(null), 2000);
   };
 
@@ -64,21 +64,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    isInWishlist
-      ? removeFromWishlist(product._id)
-      : addToWishlist({
-          id: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.images[0],
-          inStock: product.stock,
-        });
+    if (isInWishlist) {
+      removeFromWishlist(product._id);
+      toast({ title: "Removed from wishlist!" });
+    } else {
+      addToWishlist({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        inStock: product.stock,
+      });
+      toast({ title: "Added to wishlist!" });
+    }
   };
 
   return (
     <>
       <Card
-        className="overflow-hidden group h-full flex flex-col transition-all duration-300 hover:shadow-md"
+        className="overflow-hidden group flex h-full flex-col transition-all duration-300 hover:shadow-md"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -101,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             src={product.images[0] || "/placeholder.svg"}
             alt={product.name}
             fill
-            className={`object-cover transition-transform duration-500 ${
+            className={`object-cover transition-transform duration-500 lg:aspect-auto lg:h-80 ${
               hovered ? "scale-110" : "scale-100"
             }`}
           />
